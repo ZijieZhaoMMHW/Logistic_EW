@@ -26,19 +26,17 @@ When covariates (<a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&spac
 Step - by - Step Code
 -------------
 
-Firstly, we need to load the corresponding data.
+Firstly, we need to load the corresponding data. Firstly we load the SST anomalies. Since github does not allow too large dataset, I have to separate the whole data into files in every year. So we need to reconstruct them here.
 
 ```
-load('pdo_line');%1950 - 2017
-pdo_line=pdo_line(85:end,:);
-load('sam_line');%1957 - 2018
-sam_line=sam_line(1:732,:);
-load('npgo_line');%1950 - 2018
-npgo_line=npgo_line(85:816,:);
-load('enso_line');%1950 - 2018
-enso_line=enso_line(85:816,:);
-load('amo_line');%1950 - 2018
-amo_line=amo_line(85:816,:);
+%% Loading data
+% SST anomalies
+sst_anom=NaN(360,180,828);
+for i=1950:2018
+    data_here=['sst_anom_' num2str(i)];
+    load(data_here);
+    sst_anom(:,:,(1:12)+(i-1950)*12)=sst_here;
+end
 ```
 
 
