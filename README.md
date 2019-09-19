@@ -1,7 +1,7 @@
 Using Logistic Regression to evaluate the interaction between extreme warming and climate modes
 ==================================================================
 
-Logistic Regression (LR) could be used as a practical approach to examine the connection between binary variables and its potential covariates. Here is a tutorial about how to use LR to evaluate the interaction between extreme warming and climate modes using MATLAB codes.
+Logistic Regression (LR) could be used as a practical approach to examining the connection between binary variables and its potential covariates. Here is a tutorial about how to use LR to evaluate the interaction between extreme warming and climate modes using MATLAB codes.
 
 Data description
 -------------
