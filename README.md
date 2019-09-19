@@ -154,6 +154,147 @@ The fitted coefficients and its corresponding p - value are stored in `coef_*` v
 
 Then we could plot the fitted results.
 
+```
+load('lon_lat');
+load('colormap_nature');
+
+lon=double(lon);lat=double(lat);
+lon(lon<0)=180+lon(lon<0)+180;
+m_proj('miller','lon',[nanmin(lon) nanmax(lon)],'lat',[nanmin(lat) nanmax(lat)]);
+figure('pos',[10 10 1500 1500]);
+h=tight_subplot(3,2,[0.05 0.01],[0.05 0.05],[0.01 0.01]);
+axes(h(1))
+data_here=coef_t_fixed(:,:,1);
+data_here(abs(data_here)>40)=nan;
+m_contourf(lon([181:end 1:180]),lat,(data_here([181:end 1:180],:,1))',linspace(-40,40,100),'linestyle','none');
+colormap(colormap_nature);
+[lat_full,lon_full]=meshgrid(lat,lon);
+lon_full=lon_full([181:end 1:180],:);
+lat_full=lat_full([181:end 1:180],:);
+p_here=coef_t_fixed([181:end 1:180],:,2);
+hold on
+m_scatter(lon_full(p_here<0.05),lat_full(p_here<0.05),0.08,'k');
+m_coast('patch',[0 0 0]);
+m_grid('xtick',[],'ytick',[]);
+caxis([-10 10]);
+m_text(50,-60,'a) T (F)','fontsize',16,'fontweight','bold');
+s=colorbar('fontsize',12,...
+    'Ticks',linspace(-10,10,5),...
+         'TickLabels',round(exp(linspace(-1,1,5)),3));
+s.Label.String='p/(1-p)';
+
+axes(h(2))
+data_here=coef_enso_fixed(:,:,1);
+data_here(abs(data_here)>13)=nan;
+%m_pcolor(lon([181:end 1:180]),lat,(data_here([181:end 1:180],:,1))');
+m_contourf(lon([181:end 1:180]),lat,(data_here([181:end 1:180],:,1))',linspace(-15,15,50),'linestyle','none');
+colormap(h(2),colormap_nature);
+hold on
+[lat_full,lon_full]=meshgrid(lat,lon);
+lon_full=lon_full([181:end 1:180],:);
+lat_full=lat_full([181:end 1:180],:);
+p_here=coef_enso_fixed([181:end 1:180],:,2);
+hold on
+m_scatter(lon_full(p_here<0.05),lat_full(p_here<0.05),0.08,'k');
+m_coast('patch',[0 0 0]);
+m_grid('xtick',[],'ytick',[]);
+caxis([0 10]);
+m_text(50,-60,'b) ENSO (F)','fontsize',16,'fontweight','bold');
+caxis([-12 12]);
+s=colorbar('fontsize',12,...
+    'Ticks',linspace(-12,12,5),...
+         'TickLabels',round(exp(linspace(-12*0.1,12*0.1,5)),3));
+s.Label.String='p/(1-p)';
+
+axes(h(3))
+data_here=coef_amo_fixed(:,:,1);
+data_here(abs(data_here)>13)=nan;
+m_contourf(lon([181:end 1:180]),lat,(data_here([181:end 1:180],:,1))',linspace(-15,15,50),'linestyle','none');
+colormap(h(3),colormap_nature);
+hold on
+[lat_full,lon_full]=meshgrid(lat,lon);
+lon_full=lon_full([181:end 1:180],:);
+lat_full=lat_full([181:end 1:180],:);
+p_here=coef_amo_fixed([181:end 1:180],:,2);
+m_scatter(lon_full(p_here<0.05),lat_full(p_here<0.05),0.08,'k');
+hold on
+m_coast('patch',[0 0 0]);
+m_grid('xtick',[],'ytick',[]);
+caxis([0 10]);
+m_text(50,-60,'c) AMO (F)','fontsize',16,'fontweight','bold');
+caxis([-13 13]);
+s=colorbar('fontsize',12,...
+    'Ticks',linspace(-12,12,5),...
+         'TickLabels',round(exp(linspace(-13*0.1,13*0.1,5)),3));
+s.Label.String='p/(1-p)';
+
+axes(h(4))
+data_here=coef_pdo_fixed(:,:,1);
+data_here(abs(data_here)>7)=nan;
+m_contourf(lon([181:end 1:180]),lat,(data_here([181:end 1:180],:,1))',linspace(-7,7,100),'linestyle','none');
+colormap(h(4),colormap_nature);
+hold on
+[lat_full,lon_full]=meshgrid(lat,lon);
+lon_full=lon_full([181:end 1:180],:);
+lat_full=lat_full([181:end 1:180],:);
+p_here=coef_pdo_fixed([181:end 1:180],:,2);
+m_scatter(lon_full(p_here<0.05),lat_full(p_here<0.05),0.08,'k');
+hold on
+m_coast('patch',[0 0 0]);
+m_grid('xtick',[],'ytick',[]);
+caxis([0 10]);
+m_text(50,-60,'d) PDO (F)','fontsize',16,'fontweight','bold');
+caxis([-3 3]);
+s=colorbar('fontsize',12,...
+    'Ticks',linspace(-3,3,5),...
+         'TickLabels',round(exp(linspace(-3*0.1,3*0.1,5)),3));
+s.Label.String='p/(1-p)';
+
+axes(h(5))
+data_here=coef_npgo_fixed(:,:,1);
+data_here(abs(data_here)>6)=nan;
+m_contourf(lon([181:end 1:180]),lat,(data_here([181:end 1:180],:,1))',linspace(-7,7,100),'linestyle','none');
+colormap(h(5),colormap_nature);
+hold on
+[lat_full,lon_full]=meshgrid(lat,lon);
+lon_full=lon_full([181:end 1:180],:);
+lat_full=lat_full([181:end 1:180],:);
+p_here=coef_npgo_fixed([181:end 1:180],:,2);
+m_scatter(lon_full(p_here<0.05),lat_full(p_here<0.05),0.08,'k');
+hold on
+m_coast('patch',[0 0 0]);
+m_grid('xtick',[],'ytick',[]);
+caxis([0 10]);
+m_text(50,-60,'e) NPGO (F)','fontsize',16,'fontweight','bold');
+caxis([-2 2]);
+s=colorbar('fontsize',12,...
+    'Ticks',linspace(-2,2,5),...
+         'TickLabels',round(exp(linspace(-2*0.1,2*0.1,5)),3));
+s.Label.String='p/(1-p)';
+
+axes(h(6))
+data_here=coef_sam_fixed(:,:,1);
+data_here(abs(data_here)>3)=nan;
+m_contourf(lon([181:end 1:180]),lat,(data_here([181:end 1:180],:,1))',linspace(-7,7,100),'linestyle','none');
+colormap(h(6),colormap_nature);
+hold on
+[lat_full,lon_full]=meshgrid(lat,lon);
+lon_full=lon_full([181:end 1:180],:);
+lat_full=lat_full([181:end 1:180],:);
+p_here=coef_sam_fixed([181:end 1:180],:,2);
+m_scatter(lon_full(p_here<0.05),lat_full(p_here<0.05),0.08,'k');
+hold on
+m_coast('patch',[0 0 0]);
+m_grid('xtick',[],'ytick',[]);
+caxis([0 10]);
+m_text(50,-60,'f) SAM (F)','fontsize',16,'fontweight','bold');
+caxis([-2 2]);
+s=colorbar('fontsize',12,...
+    'Ticks',linspace(-2,2,5),...
+         'TickLabels',round(exp(linspace(-2*0.1,2*0.1,5)),3));
+s.Label.String='p/(1-p)';
+```
+
 
 ![Image text](https://github.com/ZijieZhaoMMHW/Logistic_EW/blob/master/fitted_lr.png)
 
